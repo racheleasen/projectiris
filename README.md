@@ -1,6 +1,6 @@
 # ProjectIris
-dev domain: https://www.projectiris.dev/ 
-production domain: https://www.projectiris.app/
+- dev domain: https://www.projectiris.dev/ 
+- prod domain: https://www.projectiris.app/
 
 ProjectIris is a gaze communication tool. It combines MediaPipe FaceMesh for landmark detection with custom vector math to estimate gaze direction, enabling real-time gaze-based interaction without the need for specialized hardware.
 
