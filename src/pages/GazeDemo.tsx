@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Results } from "@mediapipe/face_mesh";
-import { GazeProjectionTS } from "../lib/gaze/compute";
+import { GazeProjectionTS } from "../components/compute";
 
 interface Props { consent: boolean }
 

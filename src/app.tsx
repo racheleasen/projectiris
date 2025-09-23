@@ -1,9 +1,11 @@
-// src/App.tsx (Sticky Site Header, Persistent Across Pages)
+// src/App.tsx (Site Header, Persistent Across Pages)
 import React, { useEffect, useState } from "react";
 import GazeDemo from "./pages/GazeDemo";
 
+// Key used for storing/retrieving user analytics consent from localStorage
 const ANALYTICS_KEY = "iris_analytics_consent";
 
+// ---------- Sticky Site Header ----------
 function SiteHeader() {
   return (
     <header className="site-header" role="banner" aria-label="Site header">
@@ -12,8 +14,9 @@ function SiteHeader() {
           <span className="brand-mark" aria-hidden="true">●</span>
           <span className="brand-text">project iris</span>
         </div>
+
+        {/* Placeholder nav links — replace with real routes when ready */}
         <nav className="nav" aria-label="Primary">
-          {/* Add real links/routes when you have multiple pages */}
           <a className="nav-link" href="#learn more">learn more</a>
           <a className="nav-link" href="#privacy">privacy</a>
           <a className="nav-link" href="#demo">demo</a>
@@ -23,49 +26,55 @@ function SiteHeader() {
   );
 }
 
+// ---------- Main App Component ----------
 export default function App() {
-  const [consent, setConsent] = useState<boolean>(false);
-  const [cameraConsent, setCameraConsent] = useState<boolean>(false);
+  const [consent, setConsent] = useState<boolean>(false);         // Whether user allows gaze analytics
+  const [cameraConsent, setCameraConsent] = useState<boolean>(false); // Whether user enabled camera access
 
-  // Restore analytics consent
+  // On mount, restore consent preference from localStorage
   useEffect(() => {
     const saved = localStorage.getItem(ANALYTICS_KEY);
     if (saved === "true") setConsent(true);
   }, []);
 
-  // Persist analytics consent
+  // Persist consent preference when updated
   useEffect(() => {
     localStorage.setItem(ANALYTICS_KEY, String(consent));
   }, [consent]);
 
+  // When user opts in to camera access
   const handleEnableCamera = () => {
     setCameraConsent(true);
-    setConsent(true);
+    setConsent(true); // Implicitly opt into analytics too
   };
 
   return (
     <div className="app-root">
       <SiteHeader />
 
+      {/* ---------- Main Page ---------- */}
       <main className="page" role="main">
         {cameraConsent ? (
+          // If camera is enabled, show gaze demo interface
           <div className="background">
             <section className="main-content" aria-label="Gaze Demo">
               <div className="page-head">
                 <h1 className="title">Gaze Calibration</h1>
-                <p className="subtitle">Placeholder. Camera and test pointer are live, but no calibration targets are programmed at this time</p>
+                <p className="subtitle">
+                  Placeholder. Camera and test pointer are live, but no calibration targets are programmed at this time
+                </p>
               </div>
+
               <hr className="header-divider" />
-
-              <GazeDemo consent={consent} />
-
+              <GazeDemo consent={consent} />  {/* Live gaze tracker */}
               <div className="info-text">
                 <h4>*No gaze analytics are being stored at this time.</h4>
               </div>
 
               <hr className="header-divider" />
-
               <footer className="spacer-footer" aria-hidden="true" />
+
+              {/* ---------- Privacy Disclosure ---------- */}
               <details className="privacy-details" id="privacy">
                 <summary>Privacy & data handling</summary>
                 <ul>
@@ -75,6 +84,8 @@ export default function App() {
                   <li>You can revoke gaze analytics consent anytime via the checkbox below.</li>
                 </ul>
               </details>
+
+              {/* ---------- Consent Toggle ---------- */}
               <label className="checkbox-label">
                 <input
                   type="checkbox"
@@ -89,21 +100,23 @@ export default function App() {
             </section>
           </div>
         ) : (
+          // ---------- Pre-consent welcome screen ----------
           <section className="consent-wrap" aria-label="Consent">
             <div className="consent-card">
               <h3 className="title">Gaze Communication Assistance</h3>
               <p className="subtitle">
                 Camera access must be enabled to use this tool.
                 By completing gaze calibration, you’ll help improve eye-tracking accuracy and make the experience better for everyone.
-            </p>
-              <p className="lead">
               </p>
+
               <hr className="header-divider" />
+
               <p className="lead">
                 <h3>Privacy & Analytics</h3>
-                No raw video or audio is ever stored or uploaded. Anonymized web analytics and eye-tracking data (like gaze points and timing) may be sent to improve accuracy and performance. 
-                You can opt out of gaze analytics anytime.</p>
-              {/* <hr className="header-divider" /> */}
+                No raw video or audio is ever stored or uploaded. Anonymized web analytics and eye-tracking data (like gaze points and timing) may be sent to improve accuracy and performance.
+                You can opt out of gaze analytics anytime.
+              </p>
+
               <button className="consent-button" onClick={handleEnableCamera}>
                 Opt-In &amp; Continue
               </button>
