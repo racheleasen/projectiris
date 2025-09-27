@@ -18,6 +18,7 @@ ProjectIris is a gaze communication tool. It combines MediaPipe FaceMesh for lan
 
 2. Install frontend dependencies and run:
     ```bash
+    cd frontend
     npm install
     npm run dev
 
