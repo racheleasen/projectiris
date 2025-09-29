@@ -23,7 +23,7 @@ export default function LearnMore() {
           <div className={styles.feature}>
             <FaComments className={styles.featureIcon} />
             <h3>Communication</h3>
-            <p>Use Iris for short- or long-term expression.</p>
+            <p>Use Iris for short-term communication as needed.</p>
           </div>
           <div className={styles.feature}>
             <FaFlask className={styles.featureIcon} />
@@ -32,7 +32,7 @@ export default function LearnMore() {
           </div>
         </div>
         <div className={styles.dedication}>
-          The inspiration and work for this project is dedicated to the Kirksey family.
+          The work for this project is dedicated to the Kirksey family.
         </div>
       </div>
     </main>

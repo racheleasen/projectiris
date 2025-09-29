@@ -16,14 +16,16 @@ export default function GetStarted({ onEnableCamera }: Props) {
   return (
     <main className="standardPage">
       <div className="standardCard">
-        <h1>Let’s Get Started</h1>
+        <h1>Enabling your Webcam</h1>
         <p>
-          Project Iris uses your webcam to enable gaze-based interaction —
-          no video is uploaded, and you remain in control at all times.
+          Project Iris uses your webcam to estimate gaze —
+          no video or audio is ever uploaded.
         </p>
 
         <p>
-          By continuing, you’ll enable camera access and consent to anonymous analytics that help us improve accuracy.
+          You will be asked to enable camera access after consenting to analytics and selecting 'start camera' on the next page.
+        </p>
+        <p> Gaze and web analytics help us improve eye tracking accuracy for everyone.
         </p>
 
         <button className="consentButton" onClick={handleClick}>

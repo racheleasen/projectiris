@@ -6,7 +6,8 @@ import GazeDemo from "./pages/gaze_demo";
 import HeroSlide from "./pages/hero_slide";
 import LearnMore from "./pages/learn_more";
 import GetStarted from "./pages/get_started";
-import SiteHeader from "./components/site_header"; // ✅ Header
+import SiteHeader from "./components/site_header";
+import Privacy from "./pages/privacy";
 import "./styles/global.css";
 
 const ANALYTICS_KEY = "iris_analytics_consent";
@@ -15,15 +16,18 @@ export default function App() {
   const [consent, setConsent] = useState(false);
   const [cameraConsent, setCameraConsent] = useState(false);
 
+  // Restore consent on mount
   useEffect(() => {
     const saved = localStorage.getItem(ANALYTICS_KEY);
     if (saved === "true") setConsent(true);
   }, []);
 
+  // Persist consent when changed
   useEffect(() => {
     localStorage.setItem(ANALYTICS_KEY, String(consent));
   }, [consent]);
 
+  // Handle enabling camera + analytics consent
   const handleEnableCamera = () => {
     setCameraConsent(true);
     setConsent(true);
@@ -32,7 +36,7 @@ export default function App() {
   return (
     <Router>
       <div className="app-root">
-        <SiteHeader />
+        <SiteHeader /> {/* ✅ Reusable header on all pages */}
 
         <main className="page" role="main">
           <Routes>
@@ -49,14 +53,18 @@ export default function App() {
                           Placeholder. Camera and test pointer are live, but no calibration targets are programmed at this time.
                         </p>
                       </div>
+
                       <hr className="header-divider" />
                       <GazeDemo consent={consent} />
+
                       <div className="info-text">
                         <h4>*No gaze analytics are being stored at this time.</h4>
                       </div>
+
                       <hr className="header-divider" />
                       <footer className="spacer-footer" aria-hidden="true" />
 
+                      {/* Privacy details */}
                       <details className="privacy-details" id="privacy">
                         <summary>Privacy & data handling</summary>
                         <ul>
@@ -67,6 +75,7 @@ export default function App() {
                         </ul>
                       </details>
 
+                      {/* Consent toggle */}
                       <label className="checkbox-label">
                         <input
                           type="checkbox"
@@ -86,13 +95,31 @@ export default function App() {
               }
             />
 
-            {/* Route pages */}
+            {/* Other pages */}
             <Route path="/learn-more" element={<LearnMore />} />
             <Route
               path="/get-started"
-              element={<GetStarted onEnableCamera={handleEnableCamera} />} // ✅ passes handler
+              element={<GetStarted onEnableCamera={handleEnableCamera} />}
             />
             <Route path="/demo" element={<GazeDemo consent={consent} />} />
+            <Route path="/learn-more" element={<LearnMore />} />
+            <Route
+              path="/get-started"
+              element={<GetStarted onEnableCamera={handleEnableCamera} />}
+            />
+            <Route path="/demo" element={<GazeDemo consent={consent} />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route
+              path="/contact-us"
+              element={
+                <div className="standardPage">
+                  <div className="standardCard">
+                    <h1>Contact Us</h1>
+                    <p>Coming soon…</p>
+                  </div>
+                </div>
+              }
+            />
           </Routes>
         </main>
       </div>
